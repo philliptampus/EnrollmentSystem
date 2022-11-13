@@ -29,7 +29,7 @@ namespace TicketingAPI.Dapper
             get => ConnectionString;
             set
             {
-                ConnectionString = value;]
+                ConnectionString = value;
                 // Test change
             }
         }
@@ -38,6 +38,7 @@ namespace TicketingAPI.Dapper
         {
             var connection = new SqlConnection(ConnectionString);
             connection.Open();
+            Console.WriteLine("Test");
             return connection;
         }
 
