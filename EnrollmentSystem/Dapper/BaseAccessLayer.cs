@@ -38,7 +38,7 @@ namespace TicketingAPI.Dapper
         {
             var connection = new SqlConnection(ConnectionString);
             connection.Open();
-            Console.WriteLine("Test");
+            Console.WriteLine("Test 2");
             return connection;
         }
 
