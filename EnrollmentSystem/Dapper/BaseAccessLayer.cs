@@ -29,7 +29,8 @@ namespace TicketingAPI.Dapper
             get => ConnectionString;
             set
             {
-                ConnectionString = value;
+                ConnectionString = value;]
+                // Test change
             }
         }
 
