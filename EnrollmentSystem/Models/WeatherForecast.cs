@@ -1,4 +1,4 @@
-namespace EnrollmentSystem
+namespace EnrollmentSystem.Models
 {
     public class WeatherForecast
     {

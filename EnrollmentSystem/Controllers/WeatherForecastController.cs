@@ -1,3 +1,4 @@
+using EnrollmentSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentSystem.Controllers
@@ -21,50 +22,50 @@ namespace EnrollmentSystem.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = Random.Shared.Next(-20, 55),
-            //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
 
 
             // IF statement
-            var name = "Rogel";
+            //var name = "Rogel";
 
-            if (name == "Rogel")
-            {
-                // retrieve data
+            //if (name == "Rogel")
+            //{
+            //    // retrieve data
 
-                return "Student";
-            }
-            else (name == "Phillip") {
-                return "Trainer";
-            }
+            //    return "Student";
+            //}
+            //else (name == "Phillip") {
+            //    return "Trainer";
+            //}
 
-            var studentNames = new string[] { "Rogel", "Phillip", "Rosselyn" };
+            //var studentNames = new string[] { "Rogel", "Phillip", "Rosselyn" };
 
             // Loop statement
-            foreach (var student in studentNames) 
-            {
-                // get student details for each student
+            //foreach (var student in studentNames) 
+            //{
+            //    // get student details for each student
                 
-            }
+            //}
 
-            switch (name)
-            {
-                case "Rogel":
-                    {
+            //switch (name)
+            //{
+            //    case "Rogel":
+            //        {
 
-                    }
-                case "Phillip":
-                    {
+            //        }
+            //    case "Phillip":
+            //        {
 
-                    }
-                default:
-                    break;
-            }
+            //        }
+            //    default:
+            //        break;
+            //}
 
 
 
