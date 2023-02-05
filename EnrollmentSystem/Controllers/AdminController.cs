@@ -18,13 +18,34 @@ namespace EnrollmentSystem.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet(Name = "GetUsers")]
+        [HttpGet("GetUsers")]
         public async Task<IEnumerable<User>> GetUsers()
         {
 
             string query = $@"SELECT * FROM [user];";
 
             var result = await _baseAccessLayer.QueryListAsync<User>(query, null, CommandType.Text);
+
+            return result;
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("User")]
+        public async Task<User> SaveUser([FromBody] User user)
+        {
+            var query = _baseAccessLayer.GenerateInsertQuery<User>("user", user, "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, user, commandType: CommandType.Text);
+
+            return user;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("User/{id}")]
+        public async Task<User> GetUser(int id)
+        {
+            string query = $@"SELECT * FROM [user] WHERE Id=@Id;";
+            var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<User>(query, new { Id = id }, commandType: CommandType.Text);
 
             return result;
         }

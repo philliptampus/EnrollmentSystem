@@ -1,5 +1,9 @@
-﻿namespace EnrollmentSystem.Models
+﻿using System.Runtime.Serialization;
+
+namespace EnrollmentSystem.Models
 {
+    [DataContract]
+    [Serializable]
     public class User
     {
         public int Id { get; set; }
