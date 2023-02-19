@@ -49,5 +49,17 @@ namespace EnrollmentSystem.Controllers
 
             return result;
         }
+
+        [AllowAnonymous]
+        [HttpPut("UpdateUser")]
+        public async Task<User> UpdateUser([FromBody] User user)
+        {
+            var query = _baseAccessLayer.GenerateUpdateQueryById<User>("user", user, "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, user, commandType: CommandType.Text);
+
+            return user;
+        }
+
+
     }
 }
