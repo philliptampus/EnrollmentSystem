@@ -1,11 +1,11 @@
-using EnrollmentSystem.Models;
+﻿using EnrollmentSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentSystem.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class StudentController : ControllerBase
+    public class ClassesController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
@@ -14,12 +14,12 @@ namespace EnrollmentSystem.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public StudentController(ILogger<WeatherForecastController> logger)
+        public ClassesController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetStudents")]
+        [HttpGet(Name = "GetClasses")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -38,6 +38,6 @@ namespace EnrollmentSystem.Controllers
 
 
 
-      
+
     }
 }
