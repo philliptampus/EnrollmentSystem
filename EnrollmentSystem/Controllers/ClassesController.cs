@@ -1,5 +1,8 @@
 ﻿using EnrollmentSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using TicketingAPI.Dapper;
 
 namespace EnrollmentSystem.Controllers
 {
@@ -7,37 +10,23 @@ namespace EnrollmentSystem.Controllers
     [Route("[controller]")]
     public class ClassesController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private readonly IBaseAccessLayer _baseAccessLayer;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public ClassesController(ILogger<WeatherForecastController> logger)
+        public ClassesController(IBaseAccessLayer baseAccessLayer)
         {
-            _logger = logger;
+            _baseAccessLayer = baseAccessLayer;
         }
 
-        [HttpGet(Name = "GetClasses")]
-        public IEnumerable<WeatherForecast> Get()
+        [AllowAnonymous]
+        [HttpGet("GetClasses")]
+        public async Task<IEnumerable<Classes>> GetClasses()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
 
+            string query = $@"SELECT * FROM [Classes];";
 
+            var result = await _baseAccessLayer.QueryListAsync<Classes>(query, null, CommandType.Text);
 
-
+            return result;
         }
-
-
-
-
-
     }
 }
