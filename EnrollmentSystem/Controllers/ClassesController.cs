@@ -1,12 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EnrollmentSystem.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using TicketingAPI.Dapper;
 
 namespace EnrollmentSystem.Controllers
 {
-    public class ClassesController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class ClassesController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IBaseAccessLayer _baseAccessLayer;
+
+        public ClassesController(IBaseAccessLayer baseAccessLayer)
         {
-            return View();
+            _baseAccessLayer = baseAccessLayer;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("GetClasses")]
+        public async Task<IEnumerable<Classes>> GetClasses()
+        {
+
+            string query = $@"SELECT * FROM [Classes];";
+
+            var result = await _baseAccessLayer.QueryListAsync<Classes>(query, null, CommandType.Text);
+
+            return result;
         }
     }
 }
