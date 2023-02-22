@@ -31,13 +31,8 @@ namespace EnrollmentSystem.Controllers
             .ToArray();
 
 
-
+           
 
         }
-
-
-
-
-      
     }
 }
