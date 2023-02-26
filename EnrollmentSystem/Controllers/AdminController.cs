@@ -28,32 +28,7 @@ namespace EnrollmentSystem.Controllers
 
             return result;
         }
-
-        [AllowAnonymous]
-        [HttpGet("GetStudent")]
-        public async Task<IEnumerable<Student>> GetStudent()
-        {
-
-            string query = $@"SELECT * FROM Student;";
-
-            var result = await _baseAccessLayer.QueryListAsync<Student>(query, null, CommandType.Text);
-
-            return result;
-        }
-
-        [AllowAnonymous]
-        [HttpGet("GetCourse")]
-        public async Task<IEnumerable<Course>> GetCourse()
-        {
-
-            string query = $@"SELECT * FROM Course;";
-
-            var result = await _baseAccessLayer.QueryListAsync<Course>(query, null, CommandType.Text);
-
-            return result;
-        }
-
-
+               
         [AllowAnonymous]
         [HttpPost("Users")]
         public async Task<Users> SaveUser([FromBody] Users user)
@@ -63,27 +38,7 @@ namespace EnrollmentSystem.Controllers
 
             return user;
         }
-
-        [AllowAnonymous]
-        [HttpPost("Student")]
-        public async Task<Student> SaveStudent([FromBody] Student student)
-        {
-            var query = _baseAccessLayer.GenerateInsertQuery<Student>("Student", student, "Id");
-            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, student, commandType: CommandType.Text);
-
-            return student;
-        }
-
-        [AllowAnonymous]
-        [HttpPost("Course")]
-        public async Task<Course> SaveCourse([FromBody] Course course)
-        {
-            var query = _baseAccessLayer.GenerateInsertQuery<Course>("Course", course, "Id");
-            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, course, commandType: CommandType.Text);
-
-            return course;
-        }
-
+                
         [AllowAnonymous]
         [HttpGet("User/{id}")]
         public async Task<Users> GetUser(int id)
@@ -92,25 +47,7 @@ namespace EnrollmentSystem.Controllers
             var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Users>(query, new { Id = id }, commandType: CommandType.Text);
 
             return result;
-
-        }
-        [AllowAnonymous]
-        [HttpGet("Student/{id}")]
-        public async Task<Student> GetStudent(int id)
-        {
-            string query = $@"SELECT * FROM Student WHERE Id=@Id;";
-            var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Student>(query, new { Id = id }, commandType: CommandType.Text);
-
-            return result;
-        }
-        [AllowAnonymous]
-        [HttpGet("Course/{id}")]
-        public async Task<Course> GetCourse(int id)
-            {
-                string query = $@"SELECT * FROM Course WHERE Id=@Id;";
-                var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Course>(query, new { Id = id }, commandType: CommandType.Text);
-
-                return result;
+                  
             }
     }
 }
