@@ -1,5 +1,8 @@
-using EnrollmentSystem.Models;
+﻿using EnrollmentSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using TicketingAPI.Dapper;
 
 namespace EnrollmentSystem.Controllers
 {
@@ -7,32 +10,54 @@ namespace EnrollmentSystem.Controllers
     [Route("[controller]")]
     public class StudentController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private readonly IBaseAccessLayer _baseAccessLayer;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public StudentController(ILogger<WeatherForecastController> logger)
+        public StudentController(IBaseAccessLayer baseAccessLayer)
         {
-            _logger = logger;
+            _baseAccessLayer = baseAccessLayer;
+        }
+               
+        [AllowAnonymous]
+        [HttpGet("GetStudent")]
+        public async Task<IEnumerable<Student>> GetStudent()
+        {
+
+            string query = $@"SELECT * FROM Student;";
+
+            var result = await _baseAccessLayer.QueryListAsync<Student>(query, null, CommandType.Text);
+
+            return result;
+        }
+               
+        [AllowAnonymous]
+        [HttpPost("Student")]
+        public async Task<Student> SaveStudent([FromBody] Student student)
+        {
+            var query = _baseAccessLayer.GenerateInsertQuery<Student>("Student", student, "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, student, commandType: CommandType.Text);
+
+            return student;
         }
 
-        [HttpGet(Name = "GetStudents")]
-        public IEnumerable<WeatherForecast> Get()
+        [AllowAnonymous]
+        [HttpGet("Student/{id}")]
+        public async Task<Student> GetStudent(int id)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            string query = $@"SELECT * FROM Student WHERE Id=@Id;";
+            var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Student>(query, new { Id = id }, commandType: CommandType.Text);
 
-
-           
-
+            return result;
+       
         }
     }
 }
+
+
+
+
+/*CRUD                                                        HTTP VERBS
+ * CREATE - a new record                                    - POST
+ * READ   - retrieve a single/list of record(s)             - GET
+ * UPDATE - modify an existing record                       - PUT / PATCH
+ * DELETE - remove an existing record                       - DELETE
+*/
