@@ -1,4 +1,4 @@
-﻿namespace EnrollmentSystem.Models
+namespace EnrollmentSystem.Models
 {
     public class Course
     {

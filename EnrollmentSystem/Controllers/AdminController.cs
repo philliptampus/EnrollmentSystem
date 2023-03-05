@@ -19,21 +19,22 @@ namespace EnrollmentSystem.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetUsers")]
-        public async Task<IEnumerable<Users>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
 
-            string query = $@"SELECT * FROM [users];";
+            string query = $@"SELECT * FROM [user];";
 
-            var result = await _baseAccessLayer.QueryListAsync<Users>(query, null, CommandType.Text);
+            var result = await _baseAccessLayer.QueryListAsync<User>(query, null, CommandType.Text);
 
             return result;
         }
 
+
         [AllowAnonymous]
-        [HttpPost("Users")]
-        public async Task<Users> SaveUser([FromBody] Users user)
+        [HttpPost("User")]
+        public async Task<User> SaveUser([FromBody] User user)
         {
-            var query = _baseAccessLayer.GenerateInsertQuery<Users>("user", user, "Id");
+            var query = _baseAccessLayer.GenerateInsertQuery<User>("user", user, "Id");
             var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, user, commandType: CommandType.Text);
 
             return user;
@@ -41,23 +42,32 @@ namespace EnrollmentSystem.Controllers
 
         [AllowAnonymous]
         [HttpGet("User/{id}")]
-        public async Task<Users> GetUser(int id)
+        public async Task<User> GetUser(int id)
         {
             string query = $@"SELECT * FROM [user] WHERE Id=@Id;";
-            var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Users>(query, new { Id = id }, commandType: CommandType.Text);
+            var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<User>(query, new { Id = id }, commandType: CommandType.Text);
 
             return result;
+        }
 
+        [AllowAnonymous]
+        [HttpPut("UpdateUser")]
+        public async Task<User> UpdateUser([FromBody] User user)
+        {
+            var query = _baseAccessLayer.GenerateUpdateQueryById<User>("User", user, "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, user, commandType: CommandType.Text);
+
+            return user;
         }
+
+        [AllowAnonymous]
+        [HttpDelete("DeleteUser/{id}")]
+        public async Task<bool> DeleteUser(int id)
+        {
+            var query = _baseAccessLayer.GenerateDeleteQueryBySingleParameter("User", "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, new { Id = id }, commandType: CommandType.Text);
+            return result > 0;
         }
+
+    }
 }
-
-
-
-
-/*CRUD                                                        HTTP VERBS
- * CREATE - a new record                                    - POST
- * READ   - retrieve a single/list of record(s)             - GET
- * UPDATE - modify an existing record                       - PUT / PATCH
- * DELETE - remove an existing record                       - DELETE
-*/
