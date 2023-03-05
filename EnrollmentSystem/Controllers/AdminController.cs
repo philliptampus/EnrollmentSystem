@@ -49,5 +49,25 @@ namespace EnrollmentSystem.Controllers
 
             return result;
         }
+
+        [AllowAnonymous]
+        [HttpPut("UpdateUser")]
+        public async Task<User> UpdateUser([FromBody] User user)
+        {
+            var query = _baseAccessLayer.GenerateUpdateQueryById<User>("User", user, "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, user, commandType: CommandType.Text);
+
+            return user;
+        }
+
+        [AllowAnonymous]
+        [HttpDelete("DeleteUser/{id}")]
+        public async Task<bool> DeleteUser(int id)
+        {
+            var query = _baseAccessLayer.GenerateDeleteQueryBySingleParameter("User", "Id");
+            var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, new { Id = id }, commandType: CommandType.Text);
+            return result > 0;
+        }
+
     }
 }
