@@ -50,6 +50,10 @@ namespace EnrollmentSystem.Controllers
 
         }
 
+
+    // PUT OR UPDATE STUDENT //
+
+
         [AllowAnonymous]
         [HttpPut("UpdateStudent")]
         public async Task<Student> UpdateStudent([FromBody] Student student)
@@ -59,6 +63,10 @@ namespace EnrollmentSystem.Controllers
 
             return student;
         }
+
+
+     // DELETE STUDENT //
+
 
         [AllowAnonymous]
         [HttpDelete("DeleteStudent/{id}")]

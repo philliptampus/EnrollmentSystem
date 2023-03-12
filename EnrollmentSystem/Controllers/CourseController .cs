@@ -51,6 +51,10 @@ namespace EnrollmentSystem.Controllers
 
         }
 
+//PUT OR UPDATE COURSE //
+
+
+
         [AllowAnonymous]
         [HttpPut("UpdateCourse")]
         public async Task<Course> UpdateCourse([FromBody] Course course)
@@ -60,6 +64,9 @@ namespace EnrollmentSystem.Controllers
 
             return course;
         }
+
+// DELETE COURSE //
+
 
         [AllowAnonymous]
         [HttpDelete("DeleteCourse/{id}")]
