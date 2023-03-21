@@ -16,44 +16,42 @@ namespace EnrollmentSystem.Controllers
         {
             _baseAccessLayer = baseAccessLayer;
         }
-                
+
         [AllowAnonymous]
         [HttpGet("GetCourse")]
         public async Task<IEnumerable<Course>> GetCourse()
         {
 
-            string query = $@"SELECT * FROM Course;";
+            string query = $@"SELECT * FROM [course];";
 
             var result = await _baseAccessLayer.QueryListAsync<Course>(query, null, CommandType.Text);
 
             return result;
         }
 
-       
         [AllowAnonymous]
         [HttpPost("Course")]
         public async Task<Course> SaveCourse([FromBody] Course course)
         {
-            var query = _baseAccessLayer.GenerateInsertQuery<Course>("Course", course, "Id");
+            var query = _baseAccessLayer.GenerateInsertQuery<Course>("course", course, "Id");
             var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, course, commandType: CommandType.Text);
 
             return course;
         }
-               
+
         [AllowAnonymous]
         [HttpGet("Course/{id}")]
         public async Task<Course> GetCourse(int id)
-            {
-                string query = $@"SELECT * FROM Course WHERE Id=@Id;";
-                var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Course>(query, new { Id = id }, commandType: CommandType.Text);
+        {
+            string query = $@"SELECT * FROM [course] WHERE Id=@Id;";
+            var result = await _baseAccessLayer.QuerySingleOrDefaultAsync<Course>(query, new { Id = id }, commandType: CommandType.Text);
 
-                return result;
+            return result;
 
+
+
+            //PUT OR UPDATE COURSE//
         }
-
-//PUT OR UPDATE COURSE //
-
-
 
         [AllowAnonymous]
         [HttpPut("UpdateCourse")]
@@ -65,20 +63,22 @@ namespace EnrollmentSystem.Controllers
             return course;
         }
 
-// DELETE COURSE //
+
+        // DELETE COURSE //
 
 
         [AllowAnonymous]
         [HttpDelete("DeleteCourse/{id}")]
         public async Task<bool> DeleteCourse(int id)
         {
-            var query = _baseAccessLayer.GenerateDeleteQueryBySingleParameter("Course", "Id");
+            var query = _baseAccessLayer.GenerateDeleteQueryBySingleParameter("Course", "Course_Id");
             var result = await _baseAccessLayer.ExecuteNonQueryAsync(query, new { Id = id }, commandType: CommandType.Text);
             return result > 0;
         }
 
     }
 }
+
 
 
 
